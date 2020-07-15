@@ -22,19 +22,12 @@ loggin:
 1、修改network-agent配置文件src/main/resources/application.yml中的spring.netty.port为自己希望监听的端口如下所示：
 ```
 spring:
-
-  main:
-  
-    web-application-type: NONE
-    
-  netty:
-  
-    port: 36500 #代理端口
-    
-    so_backlog: 1000
-    
+  main:  
+    web-application-type: NONE    
+  netty:  
+    port: 36500 #代理端口    
+    so_backlog: 1000    
 loggin:
-
   config: classpath:log4j2.xml  
 ```
 # 使用方式
