@@ -4,33 +4,23 @@
 # 代理客户端配置
 
 1、修改network-agent配置文件src/main/resources/application.yml中的spring.netty.auth.host为network-server所部属的ip或域名如下所示：
-··
+```
 spring:
-
   main:
-  
     web-application-type: NONE
-    
-  netty: 
-  
-    agent: 
-    
-      port: 50000 #自己电脑internet代理端口
-      
-    auth: 
-    
-      host: www.example.com #network-server 部署的ip地址
-      
-      port: 36500 #network-server 配置的代理端口
-      
+  netty:   
+    agent:     
+      port: 50000 #自己电脑internet代理端口      
+    auth:     
+      host: www.example.com #network-server 部署的ip地址      
+      port: 36500 #network-server 配置的代理端口      
 loggin:
-
   config: classpath:log4j2.xml  
-  ··
+```
 # 代理转发服务配置
 
 1、修改network-agent配置文件src/main/resources/application.yml中的spring.netty.port为自己希望监听的端口如下所示：
-··
+```
 spring:
 
   main:
@@ -46,7 +36,7 @@ spring:
 loggin:
 
   config: classpath:log4j2.xml  
-··
+```
 # 使用方式
 以Windows为例可以通过以下方式设置代理服务器：
 
