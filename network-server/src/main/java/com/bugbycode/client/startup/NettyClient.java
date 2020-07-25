@@ -1,5 +1,6 @@
 package com.bugbycode.client.startup;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -45,6 +46,8 @@ public class NettyClient {
 	private int port;
 	
 	private ConnectionInfo conn;
+	
+	private long beforeTime = 0l;
 
 	public NettyClient(Message msg, Channel serverChannel,
 			EventLoopGroup remoteGroup,Map<String,NettyClient> nettyClientMap) {
@@ -57,6 +60,7 @@ public class NettyClient {
 		synchronized (this.nettyClientMap) {
 			this.nettyClientMap.put(token, this);
 		}
+		this.beforeTime = new Date().getTime();
 	}
 	
 	public void connection() {
@@ -86,6 +90,7 @@ public class NettyClient {
 					message.setType(MessageCode.CONNECTION_SUCCESS);
 					serverChannel.writeAndFlush(message);
 					clientChannel = future.channel();
+					new WorkThread().start();
 				}else {
 					logger.info("Connection to " + host + ":" + port + " failed.");
 					message.setType(MessageCode.CONNECTION_ERROR);
@@ -101,6 +106,7 @@ public class NettyClient {
 		ByteBuf buff = clientChannel.alloc().buffer(data.length);
 		buff.writeBytes(data);
 		clientChannel.writeAndFlush(buff);
+		beforeTime = new Date().getTime();
 	}
 	
 	public void close(boolean sendClose) {
@@ -116,5 +122,26 @@ public class NettyClient {
 		}
 		
 		logger.info("Disconnection to " + host + ":" + port + " .");
+	}
+	
+	private class WorkThread extends Thread{
+
+		@Override
+		public void run() {
+			while(clientChannel.isOpen()) {
+				long now = new Date().getTime();
+				if(now - beforeTime > 10000) {
+					clientChannel.close();
+				}
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			logger.info(host + ":" + port + "Data not sent after time limit.");
+		}
+		
 	}
 }
