@@ -38,8 +38,8 @@ public class StartupRunnable implements Runnable {
 	@Override
 	public void run() {
 		
-		boss = new NioEventLoopGroup(AppConfig.BOSS_THREAD_NUMBER);
-		worker = new NioEventLoopGroup(AppConfig.WORK_THREAD_NUMBER);
+		boss = new NioEventLoopGroup();
+		worker = new NioEventLoopGroup();
 		ServerBootstrap bootstrap = new ServerBootstrap();
 		
 		bootstrap.group(boss, worker).channel(NioServerSocketChannel.class)
