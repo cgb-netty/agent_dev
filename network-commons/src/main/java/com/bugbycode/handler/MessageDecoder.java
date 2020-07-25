@@ -7,8 +7,6 @@ import com.bugbycode.module.Authentication;
 import com.bugbycode.module.ConnectionInfo;
 import com.bugbycode.module.Message;
 import com.bugbycode.module.MessageCode;
-import com.util.EncriptUtil;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
@@ -16,8 +14,6 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 public class MessageDecoder extends LengthFieldBasedFrameDecoder {
 
 	private final int HEADER_SIZE = 40;
-	
-	private EncriptUtil eu = new EncriptUtil();
 	
 	public MessageDecoder(int maxFrameLength, 
 			int lengthFieldOffset, 
@@ -59,9 +55,6 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
 				data = new byte[length];
 				in.readBytes(data);
 			}
-			
-			eu.encriptArray(data);
-			eu.encriptArray(token_buff);
 			
 			if(!(type == MessageCode.HEARTBEAT || type == MessageCode.AUTH ||
 					type == MessageCode.AUTH_ERROR || type == MessageCode.AUTH_SUCCESS)) {

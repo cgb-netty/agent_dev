@@ -3,7 +3,6 @@ package com.bugbycode.handler;
 import com.bugbycode.module.ConnectionInfo;
 import com.bugbycode.module.Message;
 import com.bugbycode.module.MessageCode;
-import com.util.EncriptUtil;
 import com.bugbycode.module.Authentication;
 
 import io.netty.buffer.ByteBuf;
@@ -11,8 +10,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
 public class MessageEncoder extends MessageToByteEncoder<Message> {
-
-	private EncriptUtil eu = new EncriptUtil();
 	
 	@Override
 	protected void encode(ChannelHandlerContext ctx, Message msg, ByteBuf out) throws Exception {
@@ -24,8 +21,6 @@ public class MessageEncoder extends MessageToByteEncoder<Message> {
 		}else {
 			token_buf = token.getBytes();
 		}
-		
-		eu.encriptArray(token_buf);
 		
 		out.writeBytes(token_buf);
 		//发送消息类型
@@ -48,8 +43,6 @@ public class MessageEncoder extends MessageToByteEncoder<Message> {
 			body = new byte[0];
 		}
 
-		eu.encriptArray(body);
-		
 		int length = body.length;
 		//发送消息长度和内容
 		out.writeInt(length);
