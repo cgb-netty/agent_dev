@@ -67,9 +67,7 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
 		*/
 		p.addLast(
 				new IdleStateHandler(IdleConfig.READ_IDEL_TIME_OUT, IdleConfig.WRITE_IDEL_TIME_OUT, IdleConfig.ALL_IDEL_TIME_OUT),
-				new MessageDecoder(HandlerConst.MAX_FRAME_LENGTH, HandlerConst.LENGTH_FIELD_OFFSET, 
-						HandlerConst.LENGTH_FIELD_LENGTH, HandlerConst.LENGTH_AD_JUSTMENT, 
-						HandlerConst.INITIAL_BYTES_TO_STRIP),
+				new MessageDecoder(),
 				new MessageEncoder(),
 				new ServerHandler(channelGroup, remoteGroup, onlineAgentMap)
 		);
