@@ -130,11 +130,11 @@ public class NettyClient {
 		public void run() {
 			while(clientChannel.isOpen()) {
 				long now = new Date().getTime();
-				if(now - beforeTime > 10000) {
+				if(now - beforeTime > 60000) {
 					clientChannel.close();
 				}
 				try {
-					Thread.sleep(5000);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
