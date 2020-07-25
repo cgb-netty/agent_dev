@@ -19,55 +19,66 @@ public class MessageDecoder extends ByteToMessageDecoder {
 	
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-		Message message = new Message();
-		if(in == null){
-            return;
-        }
-		if(in.readableBytes() < HEADER_SIZE){
-            throw new Exception("头部信息长度错误");
-        }
-		//读取token信息 总共32个字节
-		byte[] token_buff = new byte[32];
-		in.readBytes(token_buff);
-		//读取消息类型总共4字节
-		int type = in.readInt();
-		//读取长度 总共4个字节
-		int length = in.readInt();
-		
-		if(in.readableBytes() != length) {
-			 throw new Exception("标记的长度不符合实际长度");
-		}
-		byte[] data = {};
-		if(length > 0) {
-			data = new byte[length];
-			in.readBytes(data);
-		}
-		
-		if(!(type == MessageCode.HEARTBEAT || type == MessageCode.AUTH ||
-				type == MessageCode.AUTH_ERROR || type == MessageCode.AUTH_SUCCESS)) {
-			String token = new String(token_buff);
-			message.setToken(token);
-		}
-		
-		message.setType(type);
-		
-		//以下是消息内容
-		if(type == MessageCode.AUTH) {
-			String authInfo = new String(data);
-			JSONObject json = new JSONObject(authInfo);
-			Authentication auth = new Authentication(json.getString("username"), json.getString("password"));
-			message.setData(auth);
-		}else if(type == MessageCode.CONNECTION) {
-			String connInfo = new String(data);
+		try {
+			Message message = new Message();
+			if(in == null){
+				throw new Exception("信息有误");
+	        }
+			if(in.readableBytes() < HEADER_SIZE){
+	            throw new Exception("头部信息长度错误");
+	        }
+			//读取token信息 总共32个字节
+			byte[] token_buff = new byte[32];
+			in.readBytes(token_buff);
+			//读取消息类型总共4字节
+			int type = in.readInt();
+			//读取长度 总共4个字节
+			int length = in.readInt();
 			
-			JSONObject json = new JSONObject(connInfo);
+			if(in.readableBytes() != length) {
+				 throw new Exception("标记的长度不符合实际长度");
+			}
+			byte[] data = {};
+			if(length > 0) {
+				data = new byte[length];
+				in.readBytes(data);
+			}
 			
-			ConnectionInfo conn = new ConnectionInfo(json.getString("host"), json.getInt("port"));
-			message.setData(conn);
-		}else if(type == MessageCode.TRANSFER_DATA) {
-			message.setData(data);
+			if(!(type == MessageCode.HEARTBEAT || type == MessageCode.AUTH ||
+					type == MessageCode.AUTH_ERROR || type == MessageCode.AUTH_SUCCESS)) {
+				String token = new String(token_buff);
+				message.setToken(token);
+			}
+			
+			message.setType(type);
+			
+			//以下是消息内容
+			if(type == MessageCode.AUTH) {
+				String authInfo = new String(data);
+				JSONObject json = new JSONObject(authInfo);
+				Authentication auth = new Authentication(json.getString("username"), json.getString("password"));
+				message.setData(auth);
+			}else if(type == MessageCode.CONNECTION) {
+				String connInfo = new String(data);
+				
+				JSONObject json = new JSONObject(connInfo);
+				
+				ConnectionInfo conn = new ConnectionInfo(json.getString("host"), json.getInt("port"));
+				message.setData(conn);
+			}else if(type == MessageCode.TRANSFER_DATA) {
+				message.setData(data);
+			}
+			out.add(message);
+		} catch (Exception e) {
+			ctx.close();
+			throw e;
+		} finally {
+			if(in != null) {
+				in.clear();
+				in.release();
+			}
 		}
-		out.add(message);
+		
 	}
 
 	/*
