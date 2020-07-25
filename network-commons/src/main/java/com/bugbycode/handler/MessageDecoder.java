@@ -84,10 +84,6 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
 		}catch (Exception e) {
 			e.printStackTrace();
 			throw e;
-		} finally {
-			if(in != null) {
-				in.release();
-			}
 		}
 	}
 
