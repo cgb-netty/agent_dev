@@ -91,6 +91,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 			nettyClientMap.clear();
 		}
 		this.remoteGroup.shutdownGracefully();
+		ctx.close();
 	}
 	
 	@Override

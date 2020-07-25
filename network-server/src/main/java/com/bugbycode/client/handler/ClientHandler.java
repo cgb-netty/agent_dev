@@ -49,6 +49,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 		synchronized (nettyClientMap) {
 			nettyClientMap.remove(token);
 		}
+		ctx.close();
 	}
 	
 	@Override
@@ -60,5 +61,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception{
 		logger.error(cause.getMessage());
 		ctx.channel().close();
+		ctx.close();
     }
 }
