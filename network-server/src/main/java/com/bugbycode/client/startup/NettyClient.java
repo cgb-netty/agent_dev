@@ -90,7 +90,6 @@ public class NettyClient {
 					message.setType(MessageCode.CONNECTION_SUCCESS);
 					serverChannel.writeAndFlush(message);
 					clientChannel = future.channel();
-					new WorkThread().start();
 				}else {
 					logger.info("Connection to " + host + ":" + port + " failed.");
 					message.setType(MessageCode.CONNECTION_ERROR);
@@ -122,26 +121,5 @@ public class NettyClient {
 		}
 		
 		logger.info("Disconnection to " + host + ":" + port + " .");
-	}
-	
-	private class WorkThread extends Thread{
-
-		@Override
-		public void run() {
-			while(clientChannel.isOpen()) {
-				long now = new Date().getTime();
-				if(now - beforeTime > 60000) {
-					clientChannel.close();
-				}
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			logger.info("The " + host + ":" + port + " data not sent after time limit.");
-		}
-		
 	}
 }
