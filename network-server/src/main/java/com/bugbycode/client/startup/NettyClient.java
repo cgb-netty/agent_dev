@@ -140,7 +140,7 @@ public class NettyClient {
 				}
 			}
 			
-			logger.info(host + ":" + port + "Data not sent after time limit.");
+			logger.info("The " + host + ":" + port + " data not sent after time limit.");
 		}
 		
 	}
