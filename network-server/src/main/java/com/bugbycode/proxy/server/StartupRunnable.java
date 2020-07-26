@@ -38,15 +38,16 @@ public class StartupRunnable implements Runnable {
 	@Override
 	public void run() {
 		
-		boss = new NioEventLoopGroup();
-		worker = new NioEventLoopGroup();
+		boss = new NioEventLoopGroup(AppConfig.BOSS_THREAD_NUMBER);
+		worker = new NioEventLoopGroup(AppConfig.WORK_THREAD_NUMBER);
 		ServerBootstrap bootstrap = new ServerBootstrap();
 		
 		bootstrap.group(boss, worker).channel(NioServerSocketChannel.class)
-		.option(ChannelOption.SO_BACKLOG, so_backlog)
-		.option(ChannelOption.TCP_NODELAY, true)
-		.childOption(ChannelOption.SO_KEEPALIVE, true)
-		.childHandler(serverChannelInitializer);
+				.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+				.option(ChannelOption.SO_BACKLOG, so_backlog)
+				.childOption(ChannelOption.SO_KEEPALIVE, true)
+				.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+				.childHandler(serverChannelInitializer);
 		
 		bootstrap.bind(serverPort).addListener(new ChannelFutureListener() {
 

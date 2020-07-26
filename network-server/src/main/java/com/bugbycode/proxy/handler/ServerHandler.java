@@ -2,10 +2,8 @@ package com.bugbycode.proxy.handler;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -25,11 +23,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
 
 public class ServerHandler extends ChannelInboundHandlerAdapter {
 	
@@ -61,18 +56,6 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		super.channelActive(ctx);
-		/*ctx.pipeline().get(SslHandler.class).handshakeFuture().addListener(new GenericFutureListener<Future<Channel>>() {
-
-			@Override
-			public void operationComplete(Future<Channel> future) throws Exception {
-				if(future.isSuccess()){  
-					logger.info("SSL auth successfully.");  
-				}else{  
-					logger.info("SSL auth failed.");  
-                }  
-			}
-			
-		});*/
 		logger.info("Agent connection...");
 	}
 	
