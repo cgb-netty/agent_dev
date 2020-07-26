@@ -91,7 +91,6 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 			nettyClientMap.clear();
 		}
 		this.remoteGroup.shutdownGracefully();
-		ctx.close();
 	}
 	
 	@Override
@@ -136,9 +135,6 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 			message.setData(null);
 			channel.writeAndFlush(message);
 			
-			message.setType(MessageCode.HEARTBEAT);
-			channel.writeAndFlush(message);
-			
 			onlineAgentMap.put(username, channel);
 			channelGroup.add(channel);
 			return;
@@ -151,8 +147,8 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 		}
 		
 		if(type == MessageCode.HEARTBEAT) {
-			message.setType(MessageCode.HEARTBEAT);
-			channel.writeAndFlush(message);
+			//
+			//System.out.println(message);
 			return;
 		}
 		
