@@ -114,8 +114,6 @@ public class MessageDecoder extends ByteToMessageDecoder {
 					offset = 0;
 					len_offset = 0;
 					len_buf = new byte[4];
-				} else {
-					System.out.println("=============================");
 				}
 			}
 		} catch (Exception e) {
