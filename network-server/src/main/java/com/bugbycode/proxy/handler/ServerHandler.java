@@ -136,6 +136,9 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 			message.setData(null);
 			channel.writeAndFlush(message);
 			
+			message.setType(MessageCode.HEARTBEAT);
+			channel.writeAndFlush(message);
+			
 			onlineAgentMap.put(username, channel);
 			channelGroup.add(channel);
 			return;
@@ -148,8 +151,8 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 		}
 		
 		if(type == MessageCode.HEARTBEAT) {
-			//
-			//System.out.println(message);
+			message.setType(MessageCode.HEARTBEAT);
+			channel.writeAndFlush(message);
 			return;
 		}
 		
