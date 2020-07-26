@@ -5,7 +5,7 @@ spring:
     agent: 
       port: 50000 #自己电脑internet代理端口
     auth: 
-      host: 150.109.118.131 #network-server 部署的ip地址
+      host: localhost #network-server 部署的ip地址
       port: 36500 #network-server 配置的代理端口
 loggin:
   config: classpath:log4j2.xml      
