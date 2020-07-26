@@ -3,6 +3,6 @@ spring:
     web-application-type: NONE
   netty:
     port: 36500 #代理端口
-    so_backlog: 1000
+    so_backlog: 512
 loggin:
   config: classpath:log4j2.xml        

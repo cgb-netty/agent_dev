@@ -133,13 +133,8 @@ public class AgentHandler extends SimpleChannelInboundHandler<ByteBuf> {
 				new NettyClient(conMsg, nettyClientMap, agentHandlerMap,remoteGroup)
 				.connection();
 			}*/
-			
-			new NettyClient(conMsg, nettyClientMap, agentHandlerMap,remoteGroup)
-			.connection();
-			
-			Message message = read();
-			
-			if(message.getType() == MessageCode.CONNECTION_ERROR) {
+			Message message = null;
+			if(host.endsWith("google.com") || host.endsWith("youtube.com")) {
 				
 				forwardHandlerMap.put(token, this);
 				
@@ -152,6 +147,26 @@ public class AgentHandler extends SimpleChannelInboundHandler<ByteBuf> {
 				}
 				
 				isForward = true;
+			} else {
+				new NettyClient(conMsg, nettyClientMap, agentHandlerMap,remoteGroup)
+				.connection();
+				
+				message = read();
+				
+				if(message.getType() == MessageCode.CONNECTION_ERROR) {
+					
+					forwardHandlerMap.put(token, this);
+					
+					startup.writeAndFlush(conMsg);
+					
+					message = read();
+					
+					if(message.getType() == MessageCode.CONNECTION_ERROR) {
+						throw new RuntimeException("Connection to " + host + ":" + port + " failed.");
+					}
+					
+					isForward = true;
+				}
 			}
 			
 			new WorkThread(ctx).start();
@@ -236,6 +251,7 @@ public class AgentHandler extends SimpleChannelInboundHandler<ByteBuf> {
 		}
 		logger.error(error);
 		ctx.channel().close();
+		ctx.close();
 	}
 	
 	public synchronized void sendMessage(Message msg) {

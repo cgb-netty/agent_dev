@@ -1,0 +1,4 @@
+2020-07-26 13:56:46.165 INFO [main][StartupInfoLogger.java:50] - Starting Application on lucky-PC with PID 15792 (D:\dev\agent_dev\network-server\target\classes started by Administrator in D:\dev\agent_dev\network-server)
+2020-07-26 13:56:46.165 INFO [main][SpringApplication.java:675] - No active profile set, falling back to default profiles: default
+2020-07-26 13:56:47.816 INFO [main][StartupInfoLogger.java:59] - Started Application in 2.187 seconds (JVM running for 2.777)
+2020-07-26 13:56:48.163 INFO [nioEventLoopGroup-2-1][StartupRunnable.java:57] - Proxy server startup successfully, port 36500......
