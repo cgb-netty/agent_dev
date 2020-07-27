@@ -1,0 +1,84 @@
+2020-07-28 01:06:37.450 INFO [main][StartupInfoLogger.java:50] - Starting Application on lucky-PC with PID 7016 (D:\dev\agent_dev\network-agent\target\classes started by Administrator in D:\dev\agent_dev\network-agent)
+2020-07-28 01:06:37.456 INFO [main][SpringApplication.java:675] - No active profile set, falling back to default profiles: default
+2020-07-28 01:06:39.748 INFO [main][TomcatWebServer.java:90] - Tomcat initialized with port(s): 8789 (http)
+2020-07-28 01:06:39.773 INFO [main][DirectJDKLog.java:180] - Initializing ProtocolHandler ["http-nio-8789"]
+2020-07-28 01:06:39.790 INFO [main][DirectJDKLog.java:180] - Starting service [Tomcat]
+2020-07-28 01:06:39.791 INFO [main][DirectJDKLog.java:180] - Starting Servlet Engine: Apache Tomcat/8.5.32
+2020-07-28 01:06:40.167 INFO [localhost-startStop-1][DirectJDKLog.java:180] - Initializing Spring embedded WebApplicationContext
+2020-07-28 01:06:40.168 INFO [localhost-startStop-1][ServletWebServerApplicationContext.java:296] - Root WebApplicationContext: initialization completed in 2585 ms
+2020-07-28 01:06:41.195 INFO [main][WelcomePageHandlerMapping.java:56] - Adding welcome page: class path resource [public/index.html]
+2020-07-28 01:06:41.378 INFO [main][DirectJDKLog.java:180] - Starting ProtocolHandler ["http-nio-8789"]
+2020-07-28 01:06:41.380 INFO [main][DirectJDKLog.java:180] - Using a shared selector for servlet write/read
+2020-07-28 01:06:41.402 INFO [main][TomcatWebServer.java:204] - Tomcat started on port(s): 8789 (http) with context path ''
+2020-07-28 01:06:41.406 INFO [main][StartupInfoLogger.java:59] - Started Application in 4.364 seconds (JVM running for 5.223)
+2020-07-28 01:06:42.024 INFO [nioEventLoopGroup-4-1][AgentServer.java:92] - Agent server startup failed, port 50000......
+2020-07-28 01:06:42.045 INFO [nioEventLoopGroup-4-1][AgentServer.java:110] - Agent server shutdown, port 50000......
+2020-07-28 01:07:02.410 INFO [main][StartupInfoLogger.java:50] - Starting Application on lucky-PC with PID 20716 (D:\dev\agent_dev\network-agent\target\classes started by Administrator in D:\dev\agent_dev\network-agent)
+2020-07-28 01:07:02.485 INFO [main][SpringApplication.java:675] - No active profile set, falling back to default profiles: default
+2020-07-28 01:07:04.705 INFO [main][TomcatWebServer.java:90] - Tomcat initialized with port(s): 8789 (http)
+2020-07-28 01:07:04.748 INFO [main][DirectJDKLog.java:180] - Initializing ProtocolHandler ["http-nio-8789"]
+2020-07-28 01:07:04.773 INFO [main][DirectJDKLog.java:180] - Starting service [Tomcat]
+2020-07-28 01:07:04.774 INFO [main][DirectJDKLog.java:180] - Starting Servlet Engine: Apache Tomcat/8.5.32
+2020-07-28 01:07:05.066 INFO [localhost-startStop-1][DirectJDKLog.java:180] - Initializing Spring embedded WebApplicationContext
+2020-07-28 01:07:05.066 INFO [localhost-startStop-1][ServletWebServerApplicationContext.java:296] - Root WebApplicationContext: initialization completed in 2532 ms
+2020-07-28 01:07:05.974 INFO [main][WelcomePageHandlerMapping.java:56] - Adding welcome page: class path resource [public/index.html]
+2020-07-28 01:07:06.129 INFO [main][DirectJDKLog.java:180] - Starting ProtocolHandler ["http-nio-8789"]
+2020-07-28 01:07:06.132 INFO [main][DirectJDKLog.java:180] - Using a shared selector for servlet write/read
+2020-07-28 01:07:06.153 INFO [main][TomcatWebServer.java:204] - Tomcat started on port(s): 8789 (http) with context path ''
+2020-07-28 01:07:06.158 INFO [main][StartupInfoLogger.java:59] - Started Application in 4.125 seconds (JVM running for 4.892)
+2020-07-28 01:07:06.627 INFO [nioEventLoopGroup-4-1][AgentServer.java:89] - Agent server startup successfully, port 60000......
+2020-07-28 01:07:09.093 INFO [http-nio-8789-exec-1][DirectJDKLog.java:180] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-07-28 01:07:09.093 INFO [http-nio-8789-exec-1][FrameworkServlet.java:524] - Initializing Servlet 'dispatcherServlet'
+2020-07-28 01:07:09.101 INFO [http-nio-8789-exec-1][FrameworkServlet.java:546] - Completed initialization in 8 ms
+2020-07-28 01:08:08.999 INFO [main][StartupInfoLogger.java:50] - Starting Application on lucky-PC with PID 9492 (D:\dev\agent_dev\network-agent\target\classes started by Administrator in D:\dev\agent_dev\network-agent)
+2020-07-28 01:08:09.063 INFO [main][SpringApplication.java:675] - No active profile set, falling back to default profiles: default
+2020-07-28 01:08:11.230 INFO [main][TomcatWebServer.java:90] - Tomcat initialized with port(s): 8789 (http)
+2020-07-28 01:08:11.245 INFO [main][DirectJDKLog.java:180] - Initializing ProtocolHandler ["http-nio-8789"]
+2020-07-28 01:08:11.255 INFO [main][DirectJDKLog.java:180] - Starting service [Tomcat]
+2020-07-28 01:08:11.256 INFO [main][DirectJDKLog.java:180] - Starting Servlet Engine: Apache Tomcat/8.5.32
+2020-07-28 01:08:11.461 INFO [localhost-startStop-1][DirectJDKLog.java:180] - Initializing Spring embedded WebApplicationContext
+2020-07-28 01:08:11.462 INFO [localhost-startStop-1][ServletWebServerApplicationContext.java:296] - Root WebApplicationContext: initialization completed in 2350 ms
+2020-07-28 01:08:12.308 INFO [main][WelcomePageHandlerMapping.java:56] - Adding welcome page: class path resource [public/index.html]
+2020-07-28 01:08:12.475 INFO [main][DirectJDKLog.java:180] - Starting ProtocolHandler ["http-nio-8789"]
+2020-07-28 01:08:12.477 INFO [main][DirectJDKLog.java:180] - Using a shared selector for servlet write/read
+2020-07-28 01:08:12.500 INFO [main][TomcatWebServer.java:204] - Tomcat started on port(s): 8789 (http) with context path ''
+2020-07-28 01:08:12.504 INFO [main][StartupInfoLogger.java:59] - Started Application in 3.869 seconds (JVM running for 4.672)
+2020-07-28 01:08:12.945 INFO [nioEventLoopGroup-4-1][AgentServer.java:89] - Agent server startup successfully, port 60000......
+2020-07-28 01:08:45.314 INFO [http-nio-8789-exec-1][DirectJDKLog.java:180] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-07-28 01:08:45.315 INFO [http-nio-8789-exec-1][FrameworkServlet.java:524] - Initializing Servlet 'dispatcherServlet'
+2020-07-28 01:08:45.321 INFO [http-nio-8789-exec-1][FrameworkServlet.java:546] - Completed initialization in 6 ms
+2020-07-28 01:10:19.639 INFO [main][StartupInfoLogger.java:50] - Starting Application on lucky-PC with PID 17544 (D:\dev\agent_dev\network-agent\target\classes started by Administrator in D:\dev\agent_dev\network-agent)
+2020-07-28 01:10:19.709 INFO [main][SpringApplication.java:675] - No active profile set, falling back to default profiles: default
+2020-07-28 01:10:21.868 INFO [main][TomcatWebServer.java:90] - Tomcat initialized with port(s): 8789 (http)
+2020-07-28 01:10:21.889 INFO [main][DirectJDKLog.java:180] - Initializing ProtocolHandler ["http-nio-8789"]
+2020-07-28 01:10:21.934 INFO [main][DirectJDKLog.java:180] - Starting service [Tomcat]
+2020-07-28 01:10:21.935 INFO [main][DirectJDKLog.java:180] - Starting Servlet Engine: Apache Tomcat/8.5.32
+2020-07-28 01:10:22.150 INFO [localhost-startStop-1][DirectJDKLog.java:180] - Initializing Spring embedded WebApplicationContext
+2020-07-28 01:10:22.150 INFO [localhost-startStop-1][ServletWebServerApplicationContext.java:296] - Root WebApplicationContext: initialization completed in 2396 ms
+2020-07-28 01:10:23.090 INFO [main][WelcomePageHandlerMapping.java:56] - Adding welcome page: class path resource [public/index.html]
+2020-07-28 01:10:23.254 INFO [main][DirectJDKLog.java:180] - Starting ProtocolHandler ["http-nio-8789"]
+2020-07-28 01:10:23.255 INFO [main][DirectJDKLog.java:180] - Using a shared selector for servlet write/read
+2020-07-28 01:10:23.273 INFO [main][TomcatWebServer.java:204] - Tomcat started on port(s): 8789 (http) with context path ''
+2020-07-28 01:10:23.276 INFO [main][StartupInfoLogger.java:59] - Started Application in 4.005 seconds (JVM running for 4.782)
+2020-07-28 01:10:23.709 INFO [nioEventLoopGroup-4-1][AgentServer.java:89] - Agent server startup successfully, port 60000......
+2020-07-28 01:10:27.195 INFO [http-nio-8789-exec-1][DirectJDKLog.java:180] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-07-28 01:10:27.195 INFO [http-nio-8789-exec-1][FrameworkServlet.java:524] - Initializing Servlet 'dispatcherServlet'
+2020-07-28 01:10:27.202 INFO [http-nio-8789-exec-1][FrameworkServlet.java:546] - Completed initialization in 7 ms
+2020-07-28 01:12:40.039 INFO [main][StartupInfoLogger.java:50] - Starting Application on lucky-PC with PID 7964 (D:\dev\agent_dev\network-agent\target\classes started by Administrator in D:\dev\agent_dev\network-agent)
+2020-07-28 01:12:40.045 INFO [main][SpringApplication.java:675] - No active profile set, falling back to default profiles: default
+2020-07-28 01:12:42.223 INFO [main][TomcatWebServer.java:90] - Tomcat initialized with port(s): 8789 (http)
+2020-07-28 01:12:42.242 INFO [main][DirectJDKLog.java:180] - Initializing ProtocolHandler ["http-nio-8789"]
+2020-07-28 01:12:42.259 INFO [main][DirectJDKLog.java:180] - Starting service [Tomcat]
+2020-07-28 01:12:42.260 INFO [main][DirectJDKLog.java:180] - Starting Servlet Engine: Apache Tomcat/8.5.32
+2020-07-28 01:12:42.554 INFO [localhost-startStop-1][DirectJDKLog.java:180] - Initializing Spring embedded WebApplicationContext
+2020-07-28 01:12:42.555 INFO [localhost-startStop-1][ServletWebServerApplicationContext.java:296] - Root WebApplicationContext: initialization completed in 2465 ms
+2020-07-28 01:12:43.592 INFO [main][WelcomePageHandlerMapping.java:56] - Adding welcome page: class path resource [public/index.html]
+2020-07-28 01:12:43.761 INFO [main][DirectJDKLog.java:180] - Starting ProtocolHandler ["http-nio-8789"]
+2020-07-28 01:12:43.763 INFO [main][DirectJDKLog.java:180] - Using a shared selector for servlet write/read
+2020-07-28 01:12:43.784 INFO [main][TomcatWebServer.java:204] - Tomcat started on port(s): 8789 (http) with context path ''
+2020-07-28 01:12:43.788 INFO [main][StartupInfoLogger.java:59] - Started Application in 4.191 seconds (JVM running for 4.976)
+2020-07-28 01:12:44.228 INFO [nioEventLoopGroup-4-1][AgentServer.java:92] - Agent server startup failed, port 60000......
+2020-07-28 01:12:44.262 INFO [nioEventLoopGroup-4-1][AgentServer.java:110] - Agent server shutdown, port 60000......
+2020-07-28 01:12:45.535 INFO [http-nio-8789-exec-1][DirectJDKLog.java:180] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-07-28 01:12:45.536 INFO [http-nio-8789-exec-1][FrameworkServlet.java:524] - Initializing Servlet 'dispatcherServlet'
+2020-07-28 01:12:45.544 INFO [http-nio-8789-exec-1][FrameworkServlet.java:546] - Completed initialization in 8 ms
