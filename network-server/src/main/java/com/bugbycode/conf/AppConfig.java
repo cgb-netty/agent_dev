@@ -16,11 +16,11 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 @Configuration
 public class AppConfig {
 	
-	public static final int WORK_THREAD_NUMBER = 5;
+	public static final int WORK_THREAD_NUMBER = 1024;
 	
-	public static final int BOSS_THREAD_NUMBER = 1;
+	public static final int BOSS_THREAD_NUMBER = 1024;
 	
-	public static final int MAX_CLIENT_NUMBER = 50;
+	public static final int MAX_CLIENT_NUMBER = 4096;
 	
 	@Bean("channelGroup")
 	public ChannelGroup getChannelGroup() {
