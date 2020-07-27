@@ -8,10 +8,12 @@ import org.apache.logging.log4j.Logger;
 
 import com.bugbycode.client.startup.NettyClient;
 import com.bugbycode.forward.client.StartupRunnable;
+import com.bugbycode.mapper.host.HostMapper;
 import com.bugbycode.module.ConnectionInfo;
 import com.bugbycode.module.Message;
 import com.bugbycode.module.MessageCode;
 import com.bugbycode.module.Protocol;
+import com.bugbycode.module.host.HostModule;
 import com.util.RandomUtil;
 import com.util.StringUtil;
 
@@ -45,17 +47,21 @@ public class AgentHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	
 	private boolean isClosed;
 	
+	private HostMapper hostMapper;
+	
 	public AgentHandler(Map<String, AgentHandler> agentHandlerMap, 
 			Map<String,AgentHandler> forwardHandlerMap,
 			Map<String,NettyClient> nettyClientMap,
 			EventLoopGroup remoteGroup,
-			StartupRunnable startup) {
+			StartupRunnable startup,
+			HostMapper hostMapper) {
 		this.agentHandlerMap = agentHandlerMap;
 		this.forwardHandlerMap = forwardHandlerMap;
 		this.nettyClientMap = nettyClientMap;
 		this.remoteGroup = remoteGroup;
 		this.startup = startup;
 		this.firstConnect = true;
+		this.hostMapper = hostMapper;
 		this.queue = new LinkedList<Message>();
 		this.token = RandomUtil.GetGuid32();
 	}
@@ -134,7 +140,17 @@ public class AgentHandler extends SimpleChannelInboundHandler<ByteBuf> {
 				.connection();
 			}*/
 			Message message = null;
-			if(host.endsWith("google.com") || host.endsWith("youtube.com")) {
+			
+			HostModule hostModule = hostMapper.queryByHost(host);
+			
+			if(hostModule == null) {
+				hostModule = new HostModule();
+				hostModule.setHost(host);
+				hostModule.setForward(0);
+				hostMapper.insert(hostModule);
+			}
+			
+			if(!(hostModule == null || hostModule.getForward() == 0)) {
 				
 				forwardHandlerMap.put(token, this);
 				
@@ -164,6 +180,10 @@ public class AgentHandler extends SimpleChannelInboundHandler<ByteBuf> {
 					if(message.getType() == MessageCode.CONNECTION_ERROR) {
 						throw new RuntimeException("Connection to " + host + ":" + port + " failed.");
 					}
+					
+					hostModule = hostMapper.queryByHost(host);
+					
+					hostMapper.updateForwardById(hostModule.getId(), 1);
 					
 					isForward = true;
 				}

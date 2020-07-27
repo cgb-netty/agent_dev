@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import com.bugbycode.agent.handler.AgentHandler;
 import com.bugbycode.client.startup.NettyClient;
 import com.bugbycode.forward.client.StartupRunnable;
+import com.bugbycode.mapper.host.HostMapper;
+import com.bugbycode.mapper.table.TableMapper;
 
 import io.netty.channel.EventLoopGroup;
 
@@ -52,12 +54,21 @@ public class AgentStartup implements ApplicationRunner {
 	//@Value("${spring.netty.auth.password}")
 	private String password = "admin";
 	
+	@Autowired
+	private TableMapper tableMapper;
+	
+	@Autowired
+	private HostMapper hostMapper;
+	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+		
+		tableMapper.initHostTable();
+		
 		StartupRunnable startup = new StartupRunnable(host, port, username, password, 
 				keystorePath,keystorePassword,forwardHandlerMap); 
 		startup.run();
-		AgentServer server = new AgentServer(agentPort, agentHandlerMap,forwardHandlerMap,nettyClientMap,remoteGroup,startup);
+		AgentServer server = new AgentServer(agentPort, agentHandlerMap,forwardHandlerMap,nettyClientMap,remoteGroup,startup,hostMapper);
 		new Thread(server).start();
 	}
 

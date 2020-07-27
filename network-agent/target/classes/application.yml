@@ -1,6 +1,12 @@
+server:
+  port: 8787
 spring:
-  main:
-    web-application-type: NONE
+#  main:
+#    web-application-type: NONE
+  server:
+    datasource:
+      url: jdbc:sqlite:data.db
+      driverClassName: org.sqlite.JDBC
   netty: 
     agent: 
       port: 50000 #自己电脑internet代理端口

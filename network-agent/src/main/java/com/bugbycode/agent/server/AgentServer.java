@@ -9,6 +9,7 @@ import com.bugbycode.agent.handler.AgentHandler;
 import com.bugbycode.client.startup.NettyClient;
 import com.bugbycode.conf.AppConfig;
 import com.bugbycode.forward.client.StartupRunnable;
+import com.bugbycode.mapper.host.HostMapper;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -42,17 +43,21 @@ public class AgentServer implements Runnable {
 	
 	private StartupRunnable startup;
 	
+	private HostMapper hostMapper;
+	
 	public AgentServer(int agentPort,Map<String,AgentHandler> agentHandlerMap,
 			Map<String,AgentHandler> forwardHandlerMap,
 			Map<String,NettyClient> nettyClientMap,
 			EventLoopGroup remoteGroup,
-			StartupRunnable startup) {
+			StartupRunnable startup,
+			HostMapper hostMapper) {
 		this.agentPort = agentPort;
 		this.agentHandlerMap = agentHandlerMap;
 		this.forwardHandlerMap = forwardHandlerMap;
 		this.nettyClientMap = nettyClientMap;
 		this.remoteGroup = remoteGroup;
 		this.startup = startup;
+		this.hostMapper = hostMapper;
 	}
 	
 	@Override
@@ -72,7 +77,7 @@ public class AgentServer implements Runnable {
 				ch.config().setAllocator(UnpooledByteBufAllocator.DEFAULT);
 				ch.pipeline().addLast(new AgentHandler(agentHandlerMap,
 						forwardHandlerMap,
-						nettyClientMap,remoteGroup,startup));
+						nettyClientMap,remoteGroup,startup,hostMapper));
 			}
 		});
 		
