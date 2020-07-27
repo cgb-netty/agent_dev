@@ -27,11 +27,10 @@ public class AppConfig {
 		return new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 	}
 	
-	/*
 	@Bean
 	public NioEventLoopGroup remoteGroup() {
 		return new NioEventLoopGroup(MAX_CLIENT_NUMBER);
-	}*/
+	}
 	
 	@Bean
 	public Map<String, Channel> onlineAgentMap(){

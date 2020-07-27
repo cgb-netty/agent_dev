@@ -47,8 +47,8 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 	public ServerHandler(ChannelGroup channelGroup, EventLoopGroup remoteGroup, 
 			Map<String, Channel> onlineAgentMap) {
 		this.channelGroup = channelGroup;
-		//this.remoteGroup = remoteGroup;
-		this.remoteGroup = new NioEventLoopGroup(AppConfig.MAX_CLIENT_NUMBER);
+		this.remoteGroup = remoteGroup;
+		//this.remoteGroup = new NioEventLoopGroup(AppConfig.MAX_CLIENT_NUMBER);
 		this.nettyClientMap = Collections.synchronizedMap(new HashMap<String,NettyClient>());
 		this.onlineAgentMap = onlineAgentMap;
 	}
@@ -61,6 +61,9 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 	
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+		super.channelInactive(ctx);
+		ctx.close();
+		ctx.channel().close();
 		logger.info("Agent connection closed... " + username);
 		onlineAgentMap.remove(username);
 		channelGroup.remove(ctx.channel());
@@ -73,7 +76,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 			}
 			nettyClientMap.clear();
 		}
-		this.remoteGroup.shutdownGracefully();
+		//this.remoteGroup.shutdownGracefully();
 	}
 	
 	@Override
@@ -176,7 +179,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 	
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-		ctx.flush();
+		super.channelReadComplete(ctx);
 	}
 	
 	@Override
@@ -190,14 +193,14 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 					logger.info("Channel timeout.");
 					ctx.channel().close();
 				}
-			} else {
-				super.userEventTriggered(ctx, evt);
 			}
 		}
+		super.userEventTriggered(ctx, evt);
 	}
 	
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		super.exceptionCaught(ctx, cause);
 		ctx.close();
 		String error = cause.getMessage();
 		if(StringUtil.isBlank(error)) {
