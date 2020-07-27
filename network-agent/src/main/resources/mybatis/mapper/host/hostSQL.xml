@@ -7,6 +7,8 @@
 		<result property="id" 			column="id"/>
 		<result property="host" 		column="host"/>
 		<result property="forward" 		column="forward"/>
+		<result property="result" 		column="result"/>
+		<result property="connTime" 	column="datetime"/>
 	</resultMap>
 	
 	<select id="query" resultMap="hostResult">
@@ -20,6 +22,9 @@
 				]]>
 			</if>
 		</where>
+		<![CDATA[
+			ORDER BY `datetime` DESC
+		]]>
 		<if test="limit != '' and limit != null">
 			<![CDATA[
 				LIMIT #{offset},#{limit}
@@ -50,10 +55,14 @@
 		<![CDATA[
 			INSERT INTO host (
 				host,
-				forward
+				forward,
+				result,
+				datetime
 			) VALUES(
 				#{host},
-				#{forward}
+				#{forward},
+				#{result},
+				#{connTime}
 			)
 		]]>
 	</insert>
@@ -61,6 +70,12 @@
 	<update id="updateForwardById" >
 		<![CDATA[
 			UPDATE host SET forward = #{forward} WHERE id = #{id}
+		]]>
+	</update>
+	
+	<update id="updateResultDatetimeByHost" >
+		<![CDATA[
+			UPDATE host SET result = #{result}, datetime = #{datetime} WHERE host = #{host}
 		]]>
 	</update>
 </mapper>

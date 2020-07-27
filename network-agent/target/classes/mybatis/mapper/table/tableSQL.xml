@@ -9,7 +9,9 @@
 			CREATE TABLE IF NOT EXISTS `host` (
 				`id` INTEGER PRIMARY KEY AUTOINCREMENT,
 				`host` VARCHAR(255),
-				`forward` TINYINT(4)
+				`forward` TINYINT(4),
+				`result` TINYINT(4),
+				`datetime` datetime
 			)
 		]]>
 	</update>

@@ -5,17 +5,21 @@
 
 1、修改network-agent配置文件src/main/resources/application.yml中的spring.netty.auth.host为network-server所部属的ip或域名如下所示：
 ```
+server:
+  port: 8787
 spring:
-  main:
-    web-application-type: NONE
-  netty:   
-    agent:     
-      port: 50000 #自己电脑internet代理端口      
-    auth:     
-      host: www.example.com #network-server 部署的ip地址      
-      port: 36500 #network-server 配置的代理端口      
+  server:
+    datasource:
+      url: jdbc:sqlite:data.db
+      driverClassName: org.sqlite.JDBC
+  netty: 
+    agent: 
+      port: 50000 #自己电脑internet代理端口
+    auth: 
+      host: localhost #network-server 部署的ip地址
+      port: 36500 #network-server 配置的代理端口
 loggin:
-  config: classpath:log4j2.xml  
+  config: classpath:log4j2.xml      
 ```
 ## 代理转发服务配置
 

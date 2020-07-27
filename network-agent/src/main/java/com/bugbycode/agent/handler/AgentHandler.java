@@ -1,5 +1,6 @@
 package com.bugbycode.agent.handler;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -143,10 +144,16 @@ public class AgentHandler extends SimpleChannelInboundHandler<ByteBuf> {
 			
 			HostModule hostModule = hostMapper.queryByHost(host);
 			
+			boolean isNewHost = false;
+			
+			Date now = new Date();
+			
 			if(hostModule == null) {
+				isNewHost = true;
 				hostModule = new HostModule();
 				hostModule.setHost(host);
 				hostModule.setForward(0);
+				hostModule.setConnTime(now);
 				hostMapper.insert(hostModule);
 			}
 			
@@ -159,6 +166,9 @@ public class AgentHandler extends SimpleChannelInboundHandler<ByteBuf> {
 				message = read();
 				
 				if(message.getType() == MessageCode.CONNECTION_ERROR) {
+					
+					hostMapper.updateResultDatetimeByHost(host, 0, now);
+					
 					throw new RuntimeException("Connection to " + host + ":" + port + " failed.");
 				}
 				
@@ -171,6 +181,14 @@ public class AgentHandler extends SimpleChannelInboundHandler<ByteBuf> {
 				
 				if(message.getType() == MessageCode.CONNECTION_ERROR) {
 					
+					//不是新访问的站点则默认不转发
+					if(!isNewHost) {
+						
+						hostMapper.updateResultDatetimeByHost(host, 0, now);
+						
+						throw new RuntimeException("Connection to " + host + ":" + port + " failed.");
+					}
+					
 					forwardHandlerMap.put(token, this);
 					
 					startup.writeAndFlush(conMsg);
@@ -178,6 +196,9 @@ public class AgentHandler extends SimpleChannelInboundHandler<ByteBuf> {
 					message = read();
 					
 					if(message.getType() == MessageCode.CONNECTION_ERROR) {
+						
+						hostMapper.updateResultDatetimeByHost(host, 0, now);
+						
 						throw new RuntimeException("Connection to " + host + ":" + port + " failed.");
 					}
 					
@@ -188,6 +209,8 @@ public class AgentHandler extends SimpleChannelInboundHandler<ByteBuf> {
 					isForward = true;
 				}
 			}
+			
+			hostMapper.updateResultDatetimeByHost(host, 1, now);
 			
 			new WorkThread(ctx).start();
 			
