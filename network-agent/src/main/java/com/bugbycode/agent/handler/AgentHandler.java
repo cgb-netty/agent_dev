@@ -75,7 +75,7 @@ public class AgentHandler extends SimpleChannelInboundHandler<ByteBuf> {
 			firstConnect = false;
 
 			String connectionStr = new String(data).trim();
-			logger.info(connectionStr);
+			logger.info(StringUtil.byteToHexString(data, data.length));
 			
 			String[] connectArr = connectionStr.split("\r\n");
 			
