@@ -15,6 +15,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 
@@ -27,6 +28,9 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
 	
 	@Autowired
 	private Map<String, Channel> onlineAgentMap;
+	
+	@Autowired
+	private NioEventLoopGroup remoteGroup;
 	
 	public ServerChannelInitializer() {
 		
@@ -41,7 +45,7 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
 						HandlerConst.LENGTH_FIELD_LENGTH, HandlerConst.LENGTH_AD_JUSTMENT, 
 						HandlerConst.INITIAL_BYTES_TO_STRIP),
 				new MessageEncoder(),
-				new ServerHandler(channelGroup, onlineAgentMap)
+				new ServerHandler(channelGroup,remoteGroup, onlineAgentMap)
 		);
 	}
 }

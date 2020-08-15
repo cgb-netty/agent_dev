@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.bugbycode.proxy.server.StartupRunnable;
 
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.nio.NioEventLoopGroup;
 
 @Component
 @Configuration
@@ -20,13 +21,16 @@ public class ProxyStartup implements ApplicationRunner {
 	
 	@Value("${spring.netty.so_backlog}")
 	private int so_backlog;
+
+	@Autowired
+	private NioEventLoopGroup remoteGroup;
 	
 	@Autowired
 	private ChannelHandler serverChannelInitializer;
 	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		StartupRunnable startup = new StartupRunnable(serverPort, so_backlog, serverChannelInitializer);
+		StartupRunnable startup = new StartupRunnable(serverPort, so_backlog, remoteGroup, serverChannelInitializer);
 		new Thread(startup).start();
 	}
 

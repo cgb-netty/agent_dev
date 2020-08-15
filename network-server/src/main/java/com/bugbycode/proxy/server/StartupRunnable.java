@@ -9,7 +9,6 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
@@ -23,24 +22,21 @@ public class StartupRunnable implements Runnable {
 	
 	private ChannelHandler serverChannelInitializer;
 	
-	private EventLoopGroup boss;
+	private NioEventLoopGroup remoteGroup;
 	
-	private EventLoopGroup worker;
-	
-	public StartupRunnable(int serverPort, int so_backlog, ChannelHandler serverChannelInitializer) {
+	public StartupRunnable(int serverPort, int so_backlog,NioEventLoopGroup remoteGroup, ChannelHandler serverChannelInitializer) {
 		this.serverPort = serverPort;
 		this.so_backlog = so_backlog;
 		this.serverChannelInitializer = serverChannelInitializer;
+		this.remoteGroup = remoteGroup;
 	}
 
 	@Override
 	public void run() {
 		
-		boss = new NioEventLoopGroup();
-		worker = new NioEventLoopGroup();
 		ServerBootstrap bootstrap = new ServerBootstrap();
 		
-		bootstrap.group(boss, worker).channel(NioServerSocketChannel.class)
+		bootstrap.group(remoteGroup, remoteGroup).channel(NioServerSocketChannel.class)
 				.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
 				.option(ChannelOption.SO_BACKLOG, so_backlog)
 				.childOption(ChannelOption.SO_KEEPALIVE, true)
@@ -62,15 +58,6 @@ public class StartupRunnable implements Runnable {
 	}
 
 	public void close() {
-		
-		if(boss != null) {
-			boss.shutdownGracefully();
-		}
-		
-		if(worker != null) {
-			worker.shutdownGracefully();
-		}
-		
 		logger.info("Proxy server shutdown, port " + serverPort + "......");
 	}
 }

@@ -20,6 +20,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 
@@ -39,11 +40,15 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 	
 	private Map<String, Channel> onlineAgentMap;
 	
+	private NioEventLoopGroup remoteGroup;
+	
 	public ServerHandler(ChannelGroup channelGroup,
+			NioEventLoopGroup remoteGroup,
 			Map<String, Channel> onlineAgentMap) {
 		this.channelGroup = channelGroup;
 		this.nettyClientMap = Collections.synchronizedMap(new HashMap<String,NettyClient>());
 		this.onlineAgentMap = onlineAgentMap;
+		this.remoteGroup = remoteGroup;
 	}
 
 	@Override
@@ -137,7 +142,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 				return;
 			}
 			
-			NettyClient client = new NettyClient(message, channel,
+			NettyClient client = new NettyClient(message, channel,this.remoteGroup,
 					nettyClientMap);
 			client.connection();
 			return;

@@ -46,12 +46,12 @@ public class NettyClient {
 	private ConnectionInfo conn;
 	
 	public NettyClient(Message msg, Channel serverChannel,
-			Map<String,NettyClient> nettyClientMap) {
+			NioEventLoopGroup remoteGroup,Map<String,NettyClient> nettyClientMap) {
 		this.remoteClient = new Bootstrap();
 		this.token = msg.getToken();
 		this.serverChannel = serverChannel;
 		this.conn = (ConnectionInfo) msg.getData();
-		this.remoteGroup = new NioEventLoopGroup();
+		this.remoteGroup = remoteGroup;
 		this.nettyClientMap = nettyClientMap;
 		synchronized (this.nettyClientMap) {
 			this.nettyClientMap.put(token, this);
@@ -113,10 +113,6 @@ public class NettyClient {
 		
 		if(clientChannel != null && clientChannel.isOpen()) {
 			clientChannel.close();
-		}
-		
-		if(this.remoteGroup != null) {
-			this.remoteGroup.shutdownGracefully();
 		}
 		
 		logger.info("Disconnection to " + host + ":" + port + " .");
