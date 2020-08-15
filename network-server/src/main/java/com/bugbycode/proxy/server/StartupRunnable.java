@@ -37,10 +37,13 @@ public class StartupRunnable implements Runnable {
 		ServerBootstrap bootstrap = new ServerBootstrap();
 		
 		bootstrap.group(remoteGroup, remoteGroup).channel(NioServerSocketChannel.class)
-				.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+				//.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+				.option(ChannelOption.TCP_NODELAY, true)
+				.option(ChannelOption.SO_KEEPALIVE, true)
 				.option(ChannelOption.SO_BACKLOG, so_backlog)
+				.childOption(ChannelOption.TCP_NODELAY, true)
 				.childOption(ChannelOption.SO_KEEPALIVE, true)
-				.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+				//.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
 				.childHandler(serverChannelInitializer);
 		
 		bootstrap.bind(serverPort).addListener(new ChannelFutureListener() {
