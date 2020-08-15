@@ -1,6 +1,5 @@
 package com.bugbycode.client.startup;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,15 +12,14 @@ import com.bugbycode.module.MessageCode;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.buffer.UnpooledByteBufAllocator;
-import io.netty.channel.AdaptiveRecvByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
@@ -47,20 +45,17 @@ public class NettyClient {
 	
 	private ConnectionInfo conn;
 	
-	private long beforeTime = 0l;
-
 	public NettyClient(Message msg, Channel serverChannel,
-			EventLoopGroup remoteGroup,Map<String,NettyClient> nettyClientMap) {
+			Map<String,NettyClient> nettyClientMap) {
 		this.remoteClient = new Bootstrap();
 		this.token = msg.getToken();
 		this.serverChannel = serverChannel;
 		this.conn = (ConnectionInfo) msg.getData();
-		this.remoteGroup = remoteGroup;
+		this.remoteGroup = new NioEventLoopGroup();
 		this.nettyClientMap = nettyClientMap;
 		synchronized (this.nettyClientMap) {
 			this.nettyClientMap.put(token, this);
 		}
-		this.beforeTime = new Date().getTime();
 	}
 	
 	public void connection() {
@@ -105,11 +100,11 @@ public class NettyClient {
 		ByteBuf buff = clientChannel.alloc().buffer(data.length);
 		buff.writeBytes(data);
 		clientChannel.writeAndFlush(buff);
-		beforeTime = new Date().getTime();
 	}
 	
 	public void close(boolean sendClose) {
-		//this.nettyClientMap.remove(token);
+		
+		this.nettyClientMap.remove(token);
 		
 		if(sendClose) {
 			Message message = new Message(token, MessageCode.CLOSE_CONNECTION, null);
@@ -118,6 +113,10 @@ public class NettyClient {
 		
 		if(clientChannel != null && clientChannel.isOpen()) {
 			clientChannel.close();
+		}
+		
+		if(this.remoteGroup != null) {
+			this.remoteGroup.shutdownGracefully();
 		}
 		
 		logger.info("Disconnection to " + host + ":" + port + " .");

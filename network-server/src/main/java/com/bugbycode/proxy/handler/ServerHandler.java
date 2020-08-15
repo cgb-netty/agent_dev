@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.bugbycode.client.startup.NettyClient;
-import com.bugbycode.conf.AppConfig;
 import com.bugbycode.module.Authentication;
 import com.bugbycode.module.ConnectionInfo;
 import com.bugbycode.module.Message;
@@ -20,9 +19,7 @@ import com.util.StringUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.EventLoopGroup;
 import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 
@@ -38,17 +35,13 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 	
 	private ChannelGroup channelGroup;
 	
-	private EventLoopGroup remoteGroup;
-	
 	private Map<String,NettyClient> nettyClientMap;
 	
 	private Map<String, Channel> onlineAgentMap;
 	
-	public ServerHandler(ChannelGroup channelGroup, EventLoopGroup remoteGroup, 
+	public ServerHandler(ChannelGroup channelGroup,
 			Map<String, Channel> onlineAgentMap) {
 		this.channelGroup = channelGroup;
-		this.remoteGroup = remoteGroup;
-		//this.remoteGroup = new NioEventLoopGroup(AppConfig.MAX_CLIENT_NUMBER);
 		this.nettyClientMap = Collections.synchronizedMap(new HashMap<String,NettyClient>());
 		this.onlineAgentMap = onlineAgentMap;
 	}
@@ -76,7 +69,6 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 			}
 			nettyClientMap.clear();
 		}
-		//this.remoteGroup.shutdownGracefully();
 	}
 	
 	@Override
@@ -145,7 +137,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 				return;
 			}
 			
-			NettyClient client = new NettyClient(message, channel, remoteGroup, 
+			NettyClient client = new NettyClient(message, channel,
 					nettyClientMap);
 			client.connection();
 			return;

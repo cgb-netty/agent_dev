@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 @Configuration
@@ -25,11 +24,6 @@ public class AppConfig {
 	@Bean("channelGroup")
 	public ChannelGroup getChannelGroup() {
 		return new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-	}
-	
-	@Bean
-	public NioEventLoopGroup remoteGroup() {
-		return new NioEventLoopGroup();
 	}
 	
 	@Bean
