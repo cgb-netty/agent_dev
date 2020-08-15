@@ -12,7 +12,6 @@ import com.bugbycode.module.MessageCode;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -71,7 +70,6 @@ public class NettyClient {
 		this.remoteClient.handler(new ChannelInitializer<SocketChannel>() {
 			@Override
 			protected void initChannel(SocketChannel ch) throws Exception {
-				ch.config().setAllocator(UnpooledByteBufAllocator.DEFAULT);
 				ch.pipeline().addLast(new ClientHandler(nettyClientMap,serverChannel,token,NettyClient.this));
 			}
 		});

@@ -26,6 +26,8 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	
 	private NettyClient client;
 	
+	private final int BUFF_SIZE = 4096;
+	
 	public ClientHandler(Map<String,NettyClient> nettyClientMap,
 			Channel serverChannel,String token,NettyClient client) {
 		this.nettyClientMap = nettyClientMap;
@@ -36,10 +38,24 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 	
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
+		int len = 0;
+		while((len = msg.readableBytes()) > 0) {
+			byte[] data;
+			if(len >= BUFF_SIZE) {
+				data = new byte[BUFF_SIZE];
+			} else {
+				data = new byte[len];
+			}
+			msg.readBytes(data);
+			Message message = new Message(token, MessageCode.TRANSFER_DATA, data);
+			serverChannel.writeAndFlush(message);
+		}
+		/*
 		byte[] data = new byte[msg.readableBytes()];
 		msg.readBytes(data);
 		Message message = new Message(token, MessageCode.TRANSFER_DATA, data);
 		serverChannel.writeAndFlush(message);
+		*/
 	}
 
 	@Override

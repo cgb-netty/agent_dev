@@ -4,11 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
@@ -20,23 +20,25 @@ public class StartupRunnable implements Runnable {
 	
 	private int so_backlog;
 	
+	private EventLoopGroup boss;
+	
+	private EventLoopGroup worker;
+	
 	private ChannelHandler serverChannelInitializer;
 	
-	private NioEventLoopGroup remoteGroup;
-	
-	public StartupRunnable(int serverPort, int so_backlog,NioEventLoopGroup remoteGroup, ChannelHandler serverChannelInitializer) {
+	public StartupRunnable(int serverPort, int so_backlog, ChannelHandler serverChannelInitializer) {
 		this.serverPort = serverPort;
 		this.so_backlog = so_backlog;
 		this.serverChannelInitializer = serverChannelInitializer;
-		this.remoteGroup = remoteGroup;
 	}
 
 	@Override
 	public void run() {
 		
 		ServerBootstrap bootstrap = new ServerBootstrap();
-		
-		bootstrap.group(remoteGroup, remoteGroup).channel(NioServerSocketChannel.class)
+		boss = new NioEventLoopGroup();
+		worker = new NioEventLoopGroup();
+		bootstrap.group(boss, worker).channel(NioServerSocketChannel.class)
 				//.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
 				.option(ChannelOption.TCP_NODELAY, true)
 				.option(ChannelOption.SO_KEEPALIVE, true)
@@ -61,6 +63,15 @@ public class StartupRunnable implements Runnable {
 	}
 
 	public void close() {
+		
+		if(worker != null) {
+			worker.shutdownGracefully();
+		}
+		
+		if(boss != null) {
+			boss.shutdownGracefully();
+		}
+		
 		logger.info("Proxy server shutdown, port " + serverPort + "......");
 	}
 }
