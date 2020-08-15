@@ -29,7 +29,7 @@ public class AppConfig {
 	
 	@Bean
 	public NioEventLoopGroup remoteGroup() {
-		return new NioEventLoopGroup(MAX_CLIENT_NUMBER);
+		return new NioEventLoopGroup();
 	}
 	
 	@Bean
