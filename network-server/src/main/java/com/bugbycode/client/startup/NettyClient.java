@@ -68,8 +68,8 @@ public class NettyClient {
 		port = conn.getPort();
 		
 		this.remoteClient.group(remoteGroup).channel(NioSocketChannel.class);
-		this.remoteClient.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
-		this.remoteClient.option(ChannelOption.RCVBUF_ALLOCATOR, AdaptiveRecvByteBufAllocator.DEFAULT);
+		//this.remoteClient.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+		//this.remoteClient.option(ChannelOption.RCVBUF_ALLOCATOR, AdaptiveRecvByteBufAllocator.DEFAULT);
 		//this.remoteClient.option(ChannelOption.CONNECT_TIMEOUT_MILLIS,5000);
 		this.remoteClient.option(ChannelOption.TCP_NODELAY, true);
 		this.remoteClient.option(ChannelOption.SO_KEEPALIVE, true);
