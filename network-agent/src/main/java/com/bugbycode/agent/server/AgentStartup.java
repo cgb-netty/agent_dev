@@ -15,7 +15,7 @@ import com.bugbycode.forward.client.StartupRunnable;
 import com.bugbycode.mapper.host.HostMapper;
 import com.bugbycode.mapper.table.TableMapper;
 
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
 
 @Component
 @Configuration
@@ -29,9 +29,6 @@ public class AgentStartup implements ApplicationRunner {
 	
 	@Autowired
 	private Map<String,NettyClient> nettyClientMap;
-	
-	@Autowired
-	private EventLoopGroup remoteGroup;
 	
 	//@Value("${spring.keystore.path}")
 	private String keystorePath = "";
@@ -60,13 +57,16 @@ public class AgentStartup implements ApplicationRunner {
 	@Autowired
 	private HostMapper hostMapper;
 	
+	@Autowired
+	private NioEventLoopGroup remoteGroup;
+	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		
 		tableMapper.initHostTable();
 		
 		StartupRunnable startup = new StartupRunnable(host, port, username, password, 
-				keystorePath,keystorePassword,forwardHandlerMap); 
+				keystorePath,keystorePassword,forwardHandlerMap,remoteGroup); 
 		startup.run();
 		AgentServer server = new AgentServer(agentPort, agentHandlerMap,forwardHandlerMap,nettyClientMap,remoteGroup,startup,hostMapper);
 		new Thread(server).start();

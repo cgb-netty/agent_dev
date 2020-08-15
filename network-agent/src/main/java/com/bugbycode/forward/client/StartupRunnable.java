@@ -58,9 +58,11 @@ public class StartupRunnable implements Runnable {
 	
 	private EventLoopGroup group;
 	
+	private NioEventLoopGroup remoteGroup;
+	
 	public StartupRunnable(String host, int port, String username, String password,
 			String keyStorePath,String keyStorePassword,
-			Map<String,AgentHandler> agentHandlerMap) {
+			Map<String,AgentHandler> agentHandlerMap,NioEventLoopGroup remoteGroup) {
 		this.host = host;
 		this.port = port;
 		this.username = username;
@@ -68,15 +70,13 @@ public class StartupRunnable implements Runnable {
 		this.keyStorePath = keyStorePath;
 		this.keyStorePassword = keyStorePassword;
 		this.agentHandlerMap = agentHandlerMap;
+		this.remoteGroup = remoteGroup;
 	}
 
 	@Override
 	public void run() {
 		Bootstrap client = new Bootstrap();
-		group = new NioEventLoopGroup();
-		client.group(group).channel(NioSocketChannel.class);
-		client.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
-		client.option(ChannelOption.RCVBUF_ALLOCATOR, AdaptiveRecvByteBufAllocator.DEFAULT);
+		client.group(this.remoteGroup).channel(NioSocketChannel.class);
 		client.option(ChannelOption.TCP_NODELAY, true);
 		client.option(ChannelOption.SO_KEEPALIVE, true);
 		client.handler(new ChannelInitializer<SocketChannel>() {
@@ -123,9 +123,6 @@ public class StartupRunnable implements Runnable {
 	}
 	
 	public void restart() {
-		if(this.group != null) {
-			this.group.shutdownGracefully();
-		}
 		if(this.clientChannel != null && this.clientChannel.isOpen()) {
 			this.clientChannel.close();
 		}
