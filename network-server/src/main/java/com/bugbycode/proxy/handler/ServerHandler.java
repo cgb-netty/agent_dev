@@ -192,7 +192,6 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 				}
 			}
 		}
-		super.userEventTriggered(ctx, evt);
 	}
 	
 	@Override
