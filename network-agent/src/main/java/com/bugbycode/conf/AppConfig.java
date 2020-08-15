@@ -42,6 +42,6 @@ public class AppConfig {
 	
 	@Bean
 	public NioEventLoopGroup remoteGroup() {
-		return new NioEventLoopGroup(WORK_THREAD_NUMBER);
+		return new NioEventLoopGroup();
 	}
 }
